@@ -8,9 +8,14 @@ import pages.LogInPage;
 import utils.ScreenshotUtil;
 
 public class LogInTest extends BaseTest {
-    private final String USERNAME = "your_username@example.com";
-    private final String PASSWORD = "your_password";
+    private final String USERNAME = "balderramak73@gmail.com";
+    private final String PASSWORD = "aptapt";
     private final String LOGIN_TEXT = "Login to your account";
+    private static final String INVALID_USERNAME = "invalid@user.com";
+    private static final String INVALID_PASSWORD = "wrongpassword";
+    private static final String EXPECTED_LOGIN_TEXT = "Login to your account";
+    private static final String EXPECTED_ERROR_MESSAGE = "Your email or password is incorrect!";
+    private static final String SCREENSHOT_DIR = "test-output/screenshots/";
 
     @Test
     public void testLoginAndLogout() {
@@ -53,4 +58,38 @@ public class LogInTest extends BaseTest {
             Assert.fail("Test failed due to exception: " + e.getMessage());
         }
     }
+
+
+    @Test
+    public void testInvalidLogin() {
+        // Step 2: Validate title is handled in BaseTest's setUp() method
+
+        HomePage homePage = new HomePage(driver);
+
+        // Step 3: Click on Signup/Login button
+        homePage.clickSignUpLoginButton();
+
+        LogInPage logInPage = new LogInPage(driver);
+
+        // Step 4: Validate text "Login to your account" is present
+        String actualLoginText = logInPage.getLoginText();
+        Assert.assertEquals(actualLoginText, EXPECTED_LOGIN_TEXT,
+                "Login section header text validation failed. Expected: " + EXPECTED_LOGIN_TEXT +
+                        " but got: " + actualLoginText);
+
+        // Step 5: Enter invalid username
+        // Step 6: Enter invalid password
+        // Step 7: Click on Login button
+        logInPage.login(INVALID_USERNAME, INVALID_PASSWORD);
+
+        // Step 8: Validate error message
+        Assert.assertTrue(homePage.isErrorMessageDisplayed(),
+                "Error message is not displayed after invalid login attempt");
+
+        String actualErrorMessage = homePage.getErrorMessageText();
+        Assert.assertEquals(actualErrorMessage, EXPECTED_ERROR_MESSAGE,
+                "Error message validation failed. Expected: " + EXPECTED_ERROR_MESSAGE +
+                        " but got: " + actualErrorMessage);
+    }
+
 }
