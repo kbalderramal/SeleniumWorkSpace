@@ -41,13 +41,22 @@ public class SuperTest {
         }
     }
 
-    public static void takeScreenshot() {
+    public static void takeScreenshot(int tcn) {
+        // Create screenshots directory if it doesn't exist
+        File screenshotsDir = new File("screenshots");
+        if (!screenshotsDir.exists()) {
+            screenshotsDir.mkdirs();
+        }
+
         SecureRandom random = new SecureRandom();
         int randomNum = 1000 + random.nextInt(9000);
 
         TakesScreenshot screenshot = (TakesScreenshot) driver;
         File srcFile = screenshot.getScreenshotAs(OutputType.FILE);
-        File destFile = new File("screenshots" + randomNum + ".png");
+
+        File destFile = new File(screenshotsDir.getPath() + File.separator + "screenshot_" + randomNum + "_testcase_"+ tcn+".png");
+
+        //File destFile = new File("screenshots" + randomNum + ".png");
 
         try {
             FileUtils.copyFile(srcFile, destFile);

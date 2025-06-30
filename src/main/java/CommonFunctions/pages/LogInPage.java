@@ -108,7 +108,7 @@ public class LogInPage {
     }
 
     // Method to perform signup
-    public void signup(String name, String email) {
+    public void signUp(String name, String email) {
         enterSignupName(name);
         enterSignupEmail(email);
         clickSignupButton();

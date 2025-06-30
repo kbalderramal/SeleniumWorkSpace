@@ -119,4 +119,14 @@ public class HomePage {
             return false;
         }
     }
+
+    // Method to verify presence of delete button
+    public boolean isDeleteButtonPresent() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        try {
+            return wait.until(ExpectedConditions.visibilityOf(deleteButton)).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
