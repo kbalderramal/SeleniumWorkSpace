@@ -1,5 +1,6 @@
 package CommonFunctions.pages;
 
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -17,6 +18,9 @@ public class LogInPage {
 
     @FindBy(xpath = "//*[contains(text(),'New User Signup!')]")
     private WebElement newUserText;
+
+    @FindBy(xpath = "//*[contains(text(),'Your email or password is incorrect!')]")
+    private WebElement incorrectCredentialsText;
 
     // Login form elements
     @FindBy(xpath = "//*[contains(text(), 'Login to your account')]/following-sibling::form[1]//input[@type='email']")
@@ -130,6 +134,16 @@ public class LogInPage {
         try {
             return wait.until(ExpectedConditions.visibilityOf(newUserText)).isDisplayed();
         } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // Validate Your email or password is incorrect! text present
+    public boolean isIncorrectCredentialsMessageDisplayed() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        try {
+            return wait.until(ExpectedConditions.visibilityOf(incorrectCredentialsText)).isDisplayed();
+        } catch (TimeoutException e) {
             return false;
         }
     }

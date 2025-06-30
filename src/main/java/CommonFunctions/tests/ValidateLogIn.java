@@ -29,10 +29,10 @@ public class ValidateLogIn extends SuperTest {
         Assert.assertTrue(loginText.contains("Login to your account"),
                 "'Login to your account' text is not present");
 
-        // 5. Enter username
+        // 5. Enter valid username
         loginPage.enterLoginEmail("fakemail.25@gmail.com");
 
-        // 6. Enter password
+        // 6. Enter valid password
         loginPage.enterLoginPassword("password");
 
         takeScreenshot(1);
@@ -66,6 +66,40 @@ public class ValidateLogIn extends SuperTest {
 
     @Test
     public void testInvalidLogIn(){
+        // Initialize Page Objects
+        HomePage homePage = new HomePage(driver);
+        LogInPage loginPage = new LogInPage(driver);
 
+        // 2. Validate title of the page as "Automation Exercise"
+        validatePageTitle("Automation Exercise");
+
+        takeScreenshot(2);
+
+        // 3. Click on Signup/Login button
+        homePage.clickSignUpLoginButton();
+
+        // 4. Validate text "Login to your account" is present
+        String loginText = loginPage.getLoginText();
+        Assert.assertTrue(loginText.contains("Login to your account"),
+                "'Login to your account' text is not present");
+
+        // 5. Enter invalid username
+        loginPage.enterLoginEmail("fmail@gamil.con");
+
+        // 6. Enter invalid password
+        loginPage.enterLoginPassword("paswordd");
+
+        takeScreenshot(2);
+
+        // 7. Click on Login button
+        loginPage.clickLoginButton();
+
+        // 8. Validate error message as "Your email or password is incorrect!"
+        Assert.assertTrue(loginPage.isIncorrectCredentialsMessageDisplayed(),
+                "Error message for invalid login is not displayed");
+
+        takeScreenshot(2);
+
+        // Browser will be closed in @AfterMethod
     }
 }
